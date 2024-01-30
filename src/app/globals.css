@@ -1,0 +1,34 @@
+/* styles/globals.css */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color:rgb(63, 61, 61);
+}
+.page{
+    background-color: black;
+    color: white;
+}
+@media (min) {
+  .rounded floatleft{
+    height: 30vh;
+    width: 30vh ;
+  }
+}
+
+hr{
+  margin-top: 5px;
+  color:white;
+}
+
+a,  a:visited {
+  color: rgb(207, 203, 203) !important;
+  text-decoration: none;
+}
+
+a:hover,  a:active {
+   color: white !important;
+}
