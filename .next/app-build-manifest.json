@@ -28,16 +28,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/admin/[id]/page.js"
     ],
-    "/allmovies/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/allmovies/page.css",
-      "static/chunks/app/allmovies/page.js"
-    ],
-    "/topmovie/[movieid]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/topmovie/[movieid]/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }
