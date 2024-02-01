@@ -102,7 +102,7 @@ export default function Admin() {
                 Rating
               </label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 onChange={(e) => setRating(e.target.value)}
                 style={{ backgroundColor: "#8d9199" }}
