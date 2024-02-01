@@ -1,4 +1,4 @@
-// Import the necessary components from react-select
+
 "use client"
 import Select from 'react-select';
 import Link from 'next/link';
@@ -39,7 +39,7 @@ export default function Pages() {
     { label: '9 to 10', value: '9-10' },
   ];
 
-  // Convert ratingOptions to react-select format
+  
   const reactSelectRatingOptions = ratingOptions.map((option) => ({
     label: option.label,
     value: option.value,
@@ -49,7 +49,7 @@ export default function Pages() {
     <div className="container">
       <h2 className="text-center p-3"> Movies</h2>
 
-      {/* Use the react-select component for the dropdown */}
+     
       <Select
         id="ratingFilter"
         className="mb-3"
@@ -63,15 +63,15 @@ export default function Pages() {
         onChange={(selectedOption) =>
           setSelectedRatingRange(selectedOption ? selectedOption.value : null)
         }
-        isSearchable={true} // Enable the search bar
+        isSearchable={true} 
         placeholder="Select Rating Range"
       />
 
-      {/* Display movies based on the selected rating range */}
+    
       {movies
         .filter((movie) => {
           if (!selectedRatingRange) {
-            return true; // Show all movies if no rating range is selected
+            return true; 
           }
           const [min, max] = selectedRatingRange.split('-');
           const rating = parseInt(movie.rating, 10);
