@@ -8,7 +8,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { onAuthStateChanged } from "firebase/auth"; // Add this line
+import { onAuthStateChanged } from "firebase/auth"; 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BiSolidStar } from "react-icons/bi";
@@ -47,14 +47,14 @@ export default function Movieid({ params }) {
           setOverview(movieData.overview);
           setGenre(movieData.genre);
 
-          // Check if releaseDate is a valid Date object before converting
+          
           if (movieData.releaseDate instanceof Date) {
             setReleaseDate(new Date(movieData.releaseDate.toMillis()));
           } else {
-            setReleaseDate(null); // Or handle it based on your requirements
+            setReleaseDate(null); 
           }
 
-          // Set up real-time listener for movie updates
+          
           const unsubscribe = onSnapshot(movieDocRef, (updatedMovie) => {
             const updatedMovieData = updatedMovie.data();
             setMovie(updatedMovieData);
@@ -83,7 +83,7 @@ export default function Movieid({ params }) {
       fetchMovieDetails();
     }
 
-    // Cleanup the authentication listener
+    
     return () => unsubscribeAuth();
   }, [params.id]);
 
@@ -95,7 +95,7 @@ export default function Movieid({ params }) {
 
       const movieDocRef = doc(firestore, "movies", params.id);
 
-      // Fetch current movie details
+      
       const movieSnapshot = await getDoc(movieDocRef);
       if (!movieSnapshot.exists()) {
         console.error("Movie not found");
@@ -104,25 +104,25 @@ export default function Movieid({ params }) {
 
       const currentMovieData = movieSnapshot.data();
 
-      // Create a new storage reference for each update
+      
       const storageRef = ref(storage, `movies/${fileUpload.name}`);
 
-      // Upload file if there's a new file
+      
       if (fileUpload) {
         console.log("Uploading file...");
         await uploadBytes(storageRef, fileUpload);
         const downloadURL = await getDownloadURL(storageRef);
         console.log("File uploaded successfully. Download URL:", downloadURL);
 
-        // Update movie data in Firestore
+        
         const updatedData = {
           title,
           rating,
           overview,
-          genre: genre === "default" ? "Action" : genre, // Check if genre is default
+          genre: genre === "default" ? "Action" : genre, 
           releaseDate:
           releaseDate instanceof Date
-          ? releaseDate.toJSON().split('T')[0]  // Extracting only the date part
+          ? releaseDate.toJSON().split('T')[0]  
           : releaseDate,
           fileURL: downloadURL,
           timestamp: serverTimestamp(),
