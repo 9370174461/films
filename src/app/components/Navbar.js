@@ -1,13 +1,34 @@
 "use client";
-import React, { useEffect } from "react";
-
+import React, { useEffect,useState } from "react";
+import { auth } from "../firebase/config";
 
 export default function Navbar() {
+
+  
+const [user, setUser] = useState(null);
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
  
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      setUser(authUser);
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  const handleLogout = () => {
+    try {
+      auth.signOut();
+  alert("Logout Successfull")
+      
+    } catch (error) {
+      alert.error(error)
+    }
+    
+  };
 
   return (
     
@@ -57,11 +78,28 @@ export default function Navbar() {
                   Random Movie
                 </a>
               </li>
+             
               <li className="nav-item">
                 <a className="nav-link" href="/choice">
                  choice movie
                 </a>
               </li>
+            
+              {user && (
+              <li className="nav-item position-absolute bottom-0 end-0">
+                <button className="btn btn-sm btn-outline-secondary m-3" onClick={handleLogout} type="button">
+                  Logout
+                </button>
+              </li>
+            )}
+            {!user && (
+              <li className="nav-item position-absolute bottom-0 end-0">
+                <a className="nav-link m-3" href="/login">
+                  Login
+                </a>
+              </li>
+             
+            )} 
             </ul>
 
           

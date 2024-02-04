@@ -1,22 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs,serverTimestamp } from "firebase/firestore";
 import { auth, firestore } from "../firebase/config";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 export default function Admin() {
   const [movies, setMovies] = useState([]);
   const [title, setTitle] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(0);
   const [overview, setOverview] = useState("");
-  const Router = useRouter();
   const [fileUpload, setFileUpload] = useState(null);
+  const [genre, setGenre] = useState("action");
+  const [releaseDate, setReleaseDate] = useState(null);
+  const Router = useRouter();
   const storage = getStorage();
-
   const auth = getAuth();
-
   const moviesCollectionRef = collection(firestore, "movies");
 
   useEffect(() => {
@@ -36,30 +40,31 @@ export default function Admin() {
 
     getMovieList();
   }, []);
+
   const moviesubmit = async (e) => {
     e.preventDefault();
     try {
-      
       console.log("File to upload:", fileUpload);
       const storageRef = ref(storage, `movies/${fileUpload.name}`);
       await uploadBytes(storageRef, fileUpload);
 
-      
       const downloadURL = await getDownloadURL(storageRef);
 
-      
       const docRef = await addDoc(moviesCollectionRef, {
         title: title,
-        rating: rating,
+        rating: Number(rating), 
         overview: overview,
+        genre: genre,
+        releaseDate: releaseDate,
         userId: auth?.currentUser?.uid,
         fileURL: downloadURL,
+        timestamp: serverTimestamp(),
       });
 
       console.log("Document written with ID: ", docRef.id);
       alert("Data Add successfully");
       setTitle("");
-      setRating("");
+      setRating(0);
       setOverview("");
       setFileUpload(null);
     } catch (err) {
@@ -67,21 +72,19 @@ export default function Admin() {
       Router.push("/login");
     }
   };
+
   const singout = () => {
     signOut(auth)
       .then(() => {
-        console.log("sucessfully logout");
+        console.log("Successfully logged out");
       })
       .catch((error) => {
-        
+        console.error(error);
       });
   };
 
   return (
-    <div
-      className="container my-3 justify-content-center align-items-center mt-5 pt-5 .bg-secondary"
-      style={{ color: "white" }}
-    >
+    <div className="container my-3 justify-content-center align-items-center mt-5 pt-5 .bg-secondary" style={{ color: "white" }}>
       <div className="row justify-content-center mt-5">
         <div className="col-md-6">
           <form onSubmit={moviesubmit}>
@@ -122,6 +125,35 @@ export default function Admin() {
               ></textarea>
             </div>
             <div className="mb-3">
+              <label htmlFor="genre" className="form-label">
+                Genre
+              </label>
+              <select
+                className="form-select"
+                onChange={(e) => setGenre(e.target.value)}
+                value={genre}
+                style={{ backgroundColor: "#8d9199" }}
+              >
+                <option value="action">Action</option>
+                <option value="horror">Horror</option>
+                <option value="thriller">Thriller</option>
+                <option value="drama">Drama</option>
+              </select>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="releaseDate" className="form-label"
+              >
+                Release Date
+              </label>
+              <DatePicker
+                selected={releaseDate}
+                onChange={(date) => setReleaseDate(date)}
+                dateFormat="dd/MM/yyyy"
+                className="form-control"
+                style={{ backgroundColor: "#8d9199" }}
+              />
+            </div>
+            <div className="mb-3">
               <label htmlFor="file" className="form-label">
                 Upload File
               </label>
@@ -139,7 +171,6 @@ export default function Admin() {
             <button type="submit" className="btn btn-primary btn-sm">
               Submit
             </button>
-            
             <button className="btn btn-secondary btn-sm" onClick={singout}>
               Logout
             </button>
