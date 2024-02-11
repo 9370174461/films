@@ -69,7 +69,7 @@ const [user, setUser] = useState(null);
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/login">
+                <a className="nav-link" href={!user?"/login":"/addmovie"}>
                   Add Movies
                 </a>
               </li>

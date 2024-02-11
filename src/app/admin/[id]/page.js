@@ -70,7 +70,7 @@ export default function Movieid({ params }) {
             }
           });
 
-          return () => unsubscribe(); // Cleanup the listener on component unmount
+          return () => unsubscribe(); 
         } else {
           console.error("Movie not found");
         }
@@ -135,12 +135,12 @@ export default function Movieid({ params }) {
         console.log("Movie successfully updated!");
         window.location.reload();
       } else {
-        // Update movie data in Firestore without changing the file
+       
         const updatedData = {
           title,
           rating,
           overview,
-          genre: genre === "default" ? "Action" : genre, // Check if genre is default
+          genre: genre === "default" ? "Action" : genre, 
           releaseDate:
           releaseDate instanceof Date
           ? releaseDate.toJSON().split('T')[0]  // Extracting only the date part
@@ -152,13 +152,13 @@ export default function Movieid({ params }) {
 
         await updateDoc(movieDocRef, updatedData);
 
-        console.log("Movie successfully updated (without file)!");
+        console.error("Movie successfully updated (without file)!");
        
       }
 
       setShowModal(false);
     } catch (error) {
-      console.error("Error updating movie:", error);
+      alert("Not Allowed to field empty", error);
     }
   };
 
