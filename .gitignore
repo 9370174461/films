@@ -69,3 +69,5 @@ node_modules/
 .next
 .env
 .next/
+
+git ls-files -s \| 

@@ -1,27 +1,48 @@
-"use client";
+"use client"
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BiSolidStar } from "react-icons/bi";
+import LoadingAnimation from "../loading";
 
 function Popular() {
   const [movielist, setMovielist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getmovie = async () => {
       try {
-        fetch(
+        const res = await fetch(
           "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=79bd47a591062f4695f664d8ff6a67d7"
-        )
-          .then((res) => res.json())
-          .then((json) => setMovielist(json.results));
+        );
+        if (!res.ok) {
+          throw new Error("Error fetching data");
+        }
+        const json = await res.json();
+        setMovielist(json.results);
+        setLoading(false);
       } catch (error) {
         setError("Error fetching data");
+        setLoading(false);
       }
     };
-    getmovie();
+
+    if (typeof window !== "undefined") {
+      getmovie();
+    }
+
     return () => {};
   }, []);
+
+  if (loading) {
+    return <LoadingAnimation />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <h2 className="text-center p-3"> Movies</h2>
