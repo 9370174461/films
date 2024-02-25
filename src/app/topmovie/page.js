@@ -28,7 +28,7 @@ function Moviedata() {
   }, []);
 
   if (error) {
-    return <div>Error code: {error}</div>;
+    return <div>Error : {error}</div>;
   }
 
   return (
