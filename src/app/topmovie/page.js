@@ -67,7 +67,7 @@ function Moviedata() {
                     <div className="col-md-9 " style={{}}>
                       <div className="card-body">
                         <h5 className="card-title grid gap-3">{movie.title}</h5>
-                        <h5>Overview:</h5>
+                        <h5>Overview :</h5>
                         <p className="card-text"> {movie.overview}</p>
                       </div>
                     </div>
