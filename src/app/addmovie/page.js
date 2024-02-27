@@ -55,9 +55,10 @@ export default function Admin() {
         rating: Number(rating), 
         overview: overview,
         genre: genre,
-        releaseDate: releaseDate instanceof Date
-        ? releaseDate.toJSON().split('T')[0]  
-        : releaseDate,
+        releaseDate:
+          releaseDate instanceof Date
+          ? releaseDate.toJSON().split('T')[0]  
+          : releaseDate,
         userId: auth?.currentUser?.uid,
         fileURL: downloadURL,
         timestamp: serverTimestamp(),
