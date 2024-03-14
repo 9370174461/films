@@ -150,7 +150,7 @@ export default function Movieid({ params }) {
 
         console.log("Updating movie data:", updatedData);
 
-        await updateDoc(movieDocRef, updatedData  { merge: true });
+        await setDoc(movieDocRef, updatedData  { merge: true });
 
         console.error("Movie successfully updated (without file)!");
        
