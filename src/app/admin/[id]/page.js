@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   doc,
   getDoc,
-  updateDoc,
+  setDoc,
   onSnapshot,
   serverTimestamp,
 } from "firebase/firestore";
@@ -130,7 +130,7 @@ export default function Movieid({ params }) {
 
         console.log("Updating movie data:", updatedData);
 
-        await updateDoc(movieDocRef, updatedData);
+        await setDoc(movieDocRef, updatedData , { merge: true });
 
         console.log("Movie successfully updated!");
         window.location.reload();
